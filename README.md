@@ -8,7 +8,6 @@ To use this code you will need:
 
 * Python 3.7+
 * SD-WAN edge router with device template attached.
-* Configure Umbrella API Token on vManage.
 
 # Install and Setup
 
