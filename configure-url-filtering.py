@@ -10,7 +10,7 @@ vmanage_port = os.environ.get("vmanage_port")
 username = os.environ.get("username")
 password = os.environ.get("password")
 device_template_name = os.environ.get("device_template_name")
-
+url_name = os.environ.get("url_list")
 
 if vmanage_host is None or vmanage_port is None or username is None or password is None or device_template_name is None :
     print("For Windows Workstation, vManage details must be set via environment variables using below commands")
@@ -19,12 +19,14 @@ if vmanage_host is None or vmanage_port is None or username is None or password 
     print("set username=admin")
     print("set password=admin")
     print("set device_template_name=BR2-CSR-1000v")
+    print("set url_list=url-name")
     print("For MAC OSX Workstation, vManage details must be set via environment variables using below commands")
     print("export vmanage_host=198.18.1.10")
     print("export vmanage_port=443")
     print("export username=admin")
     print("export password=admin")
     print("export device_template_name=BR2-CSR-1000v")
+    print("export url_list=url-name")
     exit()
 
 requests.packages.urllib3.disable_warnings()
@@ -149,12 +151,14 @@ template = Template({ "name": "email-social-network-api-call",
 
 whitelist_payload = template.render(data=url_list)'''
 
-whitelist_payload = { "name":"email-social-network-api-call", 
-                      "description":"email-social-network-api-call",
-                      "type":"urlWhiteList",
-                      "entries":[{"pattern":"outlook.com"},{"pattern":"linkedin.com"},{"pattern":"facebook.com"}
-                      ]
-                    }
+if url_name is not None: 
+    whitelist_payload = { "name":"email-social-network-api-call", 
+                        "description":"email-social-network-api-call",
+                        "type":"urlWhiteList",
+                        "entries":[{"pattern":"outlook.com"},{"pattern":"linkedin.com"},{"pattern":"facebook.com"},{"pattern":url_name}
+                        ]
+                        }
+
 
 url_white_list = vmanage_session.post_request("template/policy/list/urlwhitelist",whitelist_payload)
 
